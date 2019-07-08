@@ -7,7 +7,10 @@ import './App.css'
 
 class App extends Component {
   state = {
-    printBarGraph: false
+    printBarGraph: false,
+    chartConfig: {
+
+    }
   }
 
   data = [
@@ -58,7 +61,6 @@ class App extends Component {
       chartData[i] = data[i].count || data[i].pCount
       if (typeof data[i].data === 'undefined') {
         for (var j = 0; j < data[i].pData.en_label.length; j++) {
-          console.log(data[i].pData.en_label.charAt(j))
           if (data[i].pData.en_label.charAt(j) === ' ') {
             spaceCounter++
           }
@@ -107,13 +109,14 @@ class App extends Component {
     this.setState({
       printBarGraph: true
     }, () => {
+
       let doc = new jsPDF()
       let canvas = document.getElementById(chartId);
-      let canvasImg = canvas.toDataURL("image/jpeg", 1.0);
+      let canvasImg = canvas.toDataURL("image/png", 1.0);
       doc.setFontSize(30);
       doc.text(15, 15, "Title Text here");
 
-      doc.addImage(canvasImg, 'JPEG', 15, 40, 180, 100);
+      doc.addImage(canvasImg, 'PNG', 15, 40, 180, 100);
 
       doc.addPage();
       let tableBodyData = this.data.map((item, key) => {
